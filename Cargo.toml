@@ -1,0 +1,12 @@
+[package]
+name = "mozcdic_ut_rs"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+# TODO, Change to stable once parallel decoding is released.
+#bzip2-rs = { git = "https://github.com/paolobarbolini/bzip2-rs", features = ["rustc_1_37", "rayon"] }
+bzip2 = "*"
+encoding_rs = "0.8.28"
+rayon = "1.5.1"
+regex = "1.5.4"
