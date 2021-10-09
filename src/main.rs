@@ -291,7 +291,7 @@ fn workflow(args: &Vec<&str>) {
 
     command_runner(&vec!["unnecessary", &dicname_pre]);
     let dicname_need = format!("{}.need", &dicname_pre);
-    command_runner(&vec!["cost"]);
+    command_runner(&vec!["costs"]);
     let dicname_costs = format!("{}.costs", &dicname_need);
     command_wait("mv", vec![&dicname_costs, &dicname]).unwrap();
 
