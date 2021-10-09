@@ -38,7 +38,8 @@ jobs:
     needs: build-bin
     runs-on: ubuntu-latest
     steps:
-      - run: echo "workflow: ${{ github.event.inputs.args }}"
+      - name: Show workflow option
+        run: echo "workflow: ${{ github.event.inputs.args }}"
 
       - name: Generate dictionaries
         uses: actions-rs/cargo@v1
