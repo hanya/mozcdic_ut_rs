@@ -33,23 +33,17 @@ jobs:
             command: build
             args: --release
 
-  build-dictionary:
-    needs: build-bin
-    runs-on: ubuntu-latest
-    steps:
       - name: Show workflow option
         run: |
           echo "workflow: ${{ github.event.inputs.args }}"
 
       - name: Generate dictionaries
-        working-directory: ./mozcdic_ut_rs
         uses: actions-rs/cargo@v1
         with:
             command: run
             args: --release workflow ${{ github.event.inputs.args }}
 
       - name: Upload output files
-        working-directory: ./mozcdic_ut_rs
         uses: actions/upload-artifact@v2
         with:
             path: build/mozcdic-ut.tar.bz2
