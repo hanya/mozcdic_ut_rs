@@ -42,12 +42,14 @@ jobs:
           echo "workflow: ${{ github.event.inputs.args }}"
 
       - name: Generate dictionaries
+        working-directory: "${{ github.repository }}"
         uses: actions-rs/cargo@v1
         with:
             command: run
             args: --release workflow ${{ github.event.inputs.args }}
 
       - name: Upload output files
+        working-directory: "${{ github.repository }}"
         uses: actions/upload-artifact@v2
         with:
             path: build/mozcdic-ut.tar.bz2
