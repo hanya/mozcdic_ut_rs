@@ -8,8 +8,8 @@ use std::sync::{Arc, Mutex};
 
 use regex::*;
 use rayon::{prelude::*, ThreadPoolBuilder};
-//use bzip2_rs::{decoder::ParallelDecoderReader, RayonThreadPool};
-use bzip2::read::MultiBzDecoder;
+use bzip2_rs::{decoder::ParallelDecoderReader, RayonThreadPool};
+//use bzip2::read::MultiBzDecoder;
 
 use super::mozc::get_id;
 use super::util::*;
@@ -17,11 +17,11 @@ use super::util::*;
 
 fn check_jawiki_ut_version() -> std::io::Result<(String, bool)> {
     const INDEX_FILE_NAME: &str = "jawiki-index.html";
-    command_wait("wget", vec!["https://dumps.wikimedia.your.org/jawiki/latest/", "-O", INDEX_FILE_NAME])?;
+    command_wait("wget", vec!["https://dumps.wikimedia.org/jawiki/latest/", "-O", INDEX_FILE_NAME])?;
 
     let jawiki_index = read_file(INDEX_FILE_NAME)?;
-    if let Some((_, date)) = jawiki_index.split_once("jawiki-latest-pages-articles.xml.bz2</a></td><td class=\"m\">") {
-        if let Some((date, _)) = date.split_once(" ") {
+    if let Some((_, date)) = jawiki_index.split_once("jawiki-latest-pages-articles-multistream.xml.bz2</a>") {
+        if let Some((date, _)) = date.trim_start().split_once(" ") {
             let utdic = format!("jawiki-ut-{}.txt", date);
             if File::open(&utdic).is_ok() {
                 println!("{} already exists.", date);
@@ -220,7 +220,7 @@ fn generate_jawiki_ut(article: &str, ids: &str, out: Arc<Mutex<Vec<String>>>, re
     }
 }
 
-const LATEST_FILE_NAME: &str = "jawiki-latest-pages-articles.xml.bz2";
+const LATEST_FILE_NAME: &str = "jawiki-latest-pages-articles-multistream.xml.bz2";
 
 fn run_thread_generate_jawiki_ut(utdic: &str, dicname: &str) -> std::io::Result<()> {
     let re_remove_chars = Regex::new(r"[!?=:・。]").unwrap();
@@ -239,8 +239,8 @@ fn run_thread_generate_jawiki_ut(utdic: &str, dicname: &str) -> std::io::Result<
 
     let fr = File::open(LATEST_FILE_NAME)?;
     // TODO, ParallelDecoderReader is twice faster but makes strange result.
-    //let mut reader = ParallelDecoderReader::new(fr, RayonThreadPool, 1024 * 1024 * 16);
-    let mut reader = MultiBzDecoder::new(fr);
+    let mut reader = ParallelDecoderReader::new(fr, RayonThreadPool, 1024 * 1024 * 16);
+    //let mut reader = MultiBzDecoder::new(fr);
 
     const BLOCK_SIZE: usize = 900 * 1000;
     const BUF_SIZE: usize = BLOCK_SIZE * 260;
@@ -278,7 +278,6 @@ fn run_thread_generate_jawiki_ut(utdic: &str, dicname: &str) -> std::io::Result<
                         break;
                     }
                 }
-                //println!("{:.2?}", it);
                 total_len
             };
 
@@ -356,7 +355,7 @@ pub fn run_generate_jawiki_ut() -> std::io::Result<()> {
     if state {
         return Ok(());
     } else {
-        let addr = format!("https://dumps.wikimedia.your.org/jawiki/latest/{}", LATEST_FILE_NAME);
+        let addr = format!("https://dumps.wikimedia.org/jawiki/latest/{}", LATEST_FILE_NAME);
         command_wait("wget", vec!["-N", &addr])?;
 
         run_thread_generate_jawiki_ut(&utdic, dicname)?;

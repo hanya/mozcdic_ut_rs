@@ -1,0 +1,53 @@
+name build-actions
+
+on:
+  workflow_dispatch
+    inputs:
+      args:
+        description: 'Dictionaries to contain'
+        required: false
+        default: 'chimei jawikiarticles jinmeiut neologd'
+
+jobs:
+  build-bin:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+            fetch-depth: 1
+            persist-credentials: false
+
+      - name: Install latest stable
+        uses: actions-rs/toolchain@v1
+        with:
+            profile: minimal
+            toolchain: stable
+            override: true
+
+      - uses: Swatinem/rust-cache@v1
+
+      - name: Build tool
+        uses: actions-rs/cargo@v1
+        with:
+            command: build
+            args: --release
+
+  build:
+    needs: build-bin
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "workflow: ${{ github.event.inputs.args }}"
+
+      - name: Generate dictionaries
+        uses: actions-rs/cargo@v1
+        with
+            command: build
+            args: --release workflow ${{ github.event.inputs.args }}
+
+      - name: Upload output files
+        uses: actions/upload-artifact@v2
+        with:
+            path: build/mozcdic-ut.tar.bz2
+            if-no-files-found: error

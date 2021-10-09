@@ -55,4 +55,4 @@ The following files are copied from the mozcdic_ut.
 
 ## License
 
-Placed under the same license as mozcdic_ut.
+Placed under the same license as mozcdic_ut, Apache License 2.0.
