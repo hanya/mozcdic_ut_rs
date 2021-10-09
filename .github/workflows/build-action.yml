@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       args:
-        description: 'Dictionaries to contain'
+        description: 'Dictionaries to contain, valid options are: altcannadic, chimei, edict2, jawikiarticles, jinmeiut, neologd, skkdic, sudachidic'
         required: false
         default: 'chimei jawikiarticles jinmeiut neologd'
 
