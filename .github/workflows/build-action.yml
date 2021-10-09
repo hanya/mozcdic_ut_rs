@@ -44,7 +44,7 @@ jobs:
       - name: Generate dictionaries
         uses: actions-rs/cargo@v1
         with:
-            command: build
+            command: run
             args: --release workflow ${{ github.event.inputs.args }}
 
       - name: Upload output files
