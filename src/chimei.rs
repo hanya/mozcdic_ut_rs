@@ -193,7 +193,7 @@ pub fn run_fix_ken_all() -> std::io::Result<()> {
     const KEN_NAME: &str = "KEN_ALL.CSV";
 
     command_wait("rm", vec!["-f", KEN_NAME])?;
-    command_wait("wget", vec!["-N", "https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip"])?;
+    command_wait("wget", vec!["-N", "-q", "https://www.post.japanpost.jp/zipcode/dl/kogaki/zip/ken_all.zip"])?;
     command_wait("unzip", vec!["ken_all.zip"])?;
     fix_ken_all("KEN_ALL.CSV", "KEN_ALL.CSV.fixed")?;
     command_wait("rm", vec!["-f", KEN_NAME])?;

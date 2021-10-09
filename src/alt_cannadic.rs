@@ -107,7 +107,7 @@ pub fn run_convert_alt_cannadic_to_mozcdic() -> std::io::Result<()> {
     let path_file1 = format!("{}/{}", &name, CANNA_FILE1);
     let path_file2 = format!("{}/{}", &name, CANNA_FILE2);
 
-    command_wait("wget", vec!["-nc", &addr])?;
+    command_wait("wget", vec!["-nc", "-q", &addr])?;
     command_wait("rm", vec!["-rf", &name])?;
     command_wait("tar", vec!["xf", &tar_name])?;
     command_wait("mv", vec![&path_file1, "."])?;

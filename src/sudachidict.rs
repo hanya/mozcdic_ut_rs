@@ -157,7 +157,7 @@ pub fn run_convert_sudachidict_to_mozcdic() -> std::io::Result<()> {
 
     // sudachidict ページからコミット情報を取得
     let dictver = {
-        command_wait("wget", vec!["https://github.com/WorksApplications/SudachiDict/commits/develop/src/main/text/core_lex.csv", "-O", "sudachidict.html"])?;
+        command_wait("wget", vec!["-q", "https://github.com/WorksApplications/SudachiDict/commits/develop/src/main/text/core_lex.csv", "-O", "sudachidict.html"])?;
         let s = read_file("sudachidict.html")?;
         if let Some((_prefix, suffix)) = s.split_once(TARGET) {
             String::from(suffix.get(..7).unwrap())
@@ -173,14 +173,14 @@ pub fn run_convert_sudachidict_to_mozcdic() -> std::io::Result<()> {
 
     if !File::open(&corelex).is_ok() {
         remove_matched(".", r"core_lex\..*")?;
-        command_wait("wget", vec!["https://github.com/WorksApplications/SudachiDict/raw/develop/src/main/text/core_lex.csv", "-O", &corelex])?;
+        command_wait("wget", vec!["-nc", "-q", "https://github.com/WorksApplications/SudachiDict/raw/develop/src/main/text/core_lex.csv", "-O", &corelex])?;
     } else {
         println!("{} already exists.", &corelex);
     }
 
     if !File::open(&notcorelex).is_ok() {
         remove_matched(".", r"notcore_lex\..*")?;
-        command_wait("wget", vec!["-nc", "https://github.com/WorksApplications/SudachiDict/raw/develop/src/main/text/notcore_lex.csv", "-O", &notcorelex])?;
+        command_wait("wget", vec!["-nc", "-q", "https://github.com/WorksApplications/SudachiDict/raw/develop/src/main/text/notcore_lex.csv", "-O", &notcorelex])?;
     } else {
         println!("{} already exists.", &notcorelex);
     }

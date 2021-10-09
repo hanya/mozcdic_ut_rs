@@ -82,7 +82,7 @@ pub fn run_convert_edict2_to_mozcdic() -> std::io::Result<()> {
     let addr = format!("http://ftp.edrdg.org/pub/Nihongo/{}", &gz_name);
 
     command_wait("rm", vec!["-f", FILE_NAME])?;
-    command_wait("wget", vec!["-N", &addr])?;
+    command_wait("wget", vec!["-N", "-q", &addr])?;
     command_wait("gzip", vec!["-dk", &gz_name])?;
 
     convert_edict2_to_mozcdic(FILE_NAME, DIC_NAME)?;

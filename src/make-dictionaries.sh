@@ -4,7 +4,7 @@ UTDICDATE="20210925"
 
 #altcannadic="true"
 chimei="true"
-edict2="true"
+#edict2="true"
 jawikiarticles="true"
 jinmeiut="true"
 neologd="true"

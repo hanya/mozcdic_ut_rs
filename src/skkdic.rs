@@ -97,7 +97,7 @@ fn convert_skkdic_to_mozcdic(filename: &str, dicname: &str) -> std::io::Result<(
 }
 
 pub fn run_convert_skkdic_to_mozcdic() -> std::io::Result<()> {
-    command_wait("wget", vec!["-N", "http://openlab.jp/skk/dic/SKK-JISYO.L.gz"])?;
+    command_wait("wget", vec!["-N", "-q", "http://openlab.jp/skk/dic/SKK-JISYO.L.gz"])?;
     command_wait("rm", vec!["-f", "SKK-JISYO.L"])?;
     command_wait("gzip", vec!["-dk", "SKK-JISYO.L.gz"])?;
 

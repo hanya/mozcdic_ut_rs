@@ -356,7 +356,7 @@ pub fn run_generate_jawiki_ut() -> std::io::Result<()> {
         return Ok(());
     } else {
         let addr = format!("https://dumps.wikimedia.org/jawiki/latest/{}", LATEST_FILE_NAME);
-        command_wait("wget", vec!["-N", &addr])?;
+        command_wait("wget", vec!["-N", "-q", &addr])?;
 
         run_thread_generate_jawiki_ut(&utdic, dicname)?;
     }

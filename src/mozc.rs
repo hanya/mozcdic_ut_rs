@@ -66,7 +66,7 @@ pub fn get_mozc(version: &str) -> std::io::Result<()> {
         println!("{}.zip already exists.", zipfile);
     } else {
         command_wait("rm", vec!["-f", "mozc-*.zip"])?;
-        command_wait("wget", vec!["https://github.com/google/mozc/archive/refs/heads/master.zip", "-O", &zipfile])?;
+        command_wait("wget", vec!["-N", "-q", "https://github.com/google/mozc/archive/refs/heads/master.zip", "-O", &zipfile])?;
     }
 
     command_wait("rm", vec!["-rf", "mozc-master"])?;
@@ -94,7 +94,7 @@ pub fn get_mozc(version: &str) -> std::io::Result<()> {
 }
 
 pub fn get_the_latest_mozc() -> std::io::Result<()> {
-    command_wait("wget", vec!["-N", "https://raw.githubusercontent.com/google/mozc/master/src/data/version/mozc_version_template.bzl"])?;
+    command_wait("wget", vec!["-N", "-q", "https://raw.githubusercontent.com/google/mozc/master/src/data/version/mozc_version_template.bzl"])?;
     let version = parse_mozc_version_template()?;
     get_mozc(&version)?;
 

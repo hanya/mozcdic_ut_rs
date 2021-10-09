@@ -138,7 +138,7 @@ pub fn run_convert_neologd_to_mozcdic() -> std::io::Result<()> {
 
     let re = Regex::new(r"mecab-user-dict-seed.(\d*).csv.xz").unwrap();
 
-    command_wait("wget", vec![URL, "-O", SEED_NAME])?;
+    command_wait("wget", vec!["-q", URL, "-O", SEED_NAME])?;
 
     let neologdver = {
         let s = read_file(SEED_NAME)?;
@@ -156,7 +156,7 @@ pub fn run_convert_neologd_to_mozcdic() -> std::io::Result<()> {
     let addr = format!("https://github.com/neologd/mecab-ipadic-neologd/raw/master/seed/{}", &archive_name);
 
     if !File::open(&archive_name).is_ok() {
-        command_wait("wget", vec!["-nc", &addr])?;
+        command_wait("wget", vec!["-nc", "-q", &addr])?;
     }
     if !File::open(&file_name).is_ok() {
         command_wait("7z", vec!["x", "-aos", &archive_name])?;

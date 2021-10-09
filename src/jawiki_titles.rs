@@ -64,7 +64,7 @@ pub fn run_add_search_results_to_each_title() -> std::io::Result<()> {
     const FILE_NAME: &str = "jawiki-latest-all-titles-in-ns0.gz";
     const DIC_NAME: &str = "jawiki-latest-all-titles-in-ns0.hits";
 
-    command_wait("wget", vec!["-N", "https://dumps.wikimedia.your.org//jawiki/latest/jawiki-latest-all-titles-in-ns0.gz"])?;
+    command_wait("wget", vec!["-N", "-q", "https://dumps.wikimedia.your.org//jawiki/latest/jawiki-latest-all-titles-in-ns0.gz"])?;
 
     add_search_results_to_each_title(FILE_NAME, DIC_NAME)?;
 
