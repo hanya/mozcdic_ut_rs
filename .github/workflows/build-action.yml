@@ -10,7 +10,6 @@ on:
 
 jobs:
   build-bin:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,12 +33,13 @@ jobs:
             command: build
             args: --release
 
-  build:
+  build-dictionary:
     needs: build-bin
     runs-on: ubuntu-latest
     steps:
       - name: Show workflow option
-        run: echo "workflow: ${{ github.event.inputs.args }}"
+        run: |
+          echo "workflow: ${{ github.event.inputs.args }}"
 
       - name: Generate dictionaries
         uses: actions-rs/cargo@v1
