@@ -246,7 +246,7 @@ fn workflow(args: &Vec<&str>) {
         let mut f = File::create(&dicname_pre).unwrap();
         let mut append = |filename: &str| {
             let mut fc = File::open(filename).unwrap();
-            std::io::copy(&mut fc, &mut f).unwrap();
+            std::io::copy(&mut fc, &mut f).expect(filename);
         };
 
         let mut i = 1;
@@ -268,7 +268,7 @@ fn workflow(args: &Vec<&str>) {
                     append("mozcdic-ut-jawiki.txt");
                 }
                 "jinmeiut" => {
-                    append("mozcdic-ut-jinmeiut.txt");
+                    append("mozcdic-ut-jinmei.txt");
                 }
                 "neologd" => {
                     append("mozcdic-ut-neologd.txt");

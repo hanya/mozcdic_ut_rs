@@ -159,7 +159,7 @@ pub fn run_convert_neologd_to_mozcdic() -> std::io::Result<()> {
         command_wait("wget", vec!["-nc", "-q", &addr])?;
     }
     if !File::open(&file_name).is_ok() {
-        command_wait("7z", vec!["x", "-aos", &archive_name])?;
+        command_wait("7z", vec!["x", "-bb0", "-aos", &archive_name])?;
     }
 
     convert_neologd_to_mozcdic(&file_name, "mozcdic-ut-neologd.txt")?;

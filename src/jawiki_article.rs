@@ -17,7 +17,7 @@ use super::util::*;
 
 fn check_jawiki_ut_version() -> std::io::Result<(String, bool)> {
     const INDEX_FILE_NAME: &str = "jawiki-index.html";
-    command_wait("wget", vec!["https://dumps.wikimedia.org/jawiki/latest/", "-O", INDEX_FILE_NAME])?;
+    command_wait("wget", vec!["-q", "https://dumps.wikimedia.org/jawiki/latest/", "-O", INDEX_FILE_NAME])?;
 
     let jawiki_index = read_file(INDEX_FILE_NAME)?;
     if let Some((_, date)) = jawiki_index.split_once("jawiki-latest-pages-articles-multistream.xml.bz2</a>") {
