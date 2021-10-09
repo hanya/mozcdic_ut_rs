@@ -317,7 +317,7 @@ This dictionary contains entries from the following projects.\n";
 
     // Generates archive
     let archive_name = "mozcdic-ut.tar.bz2";
-    let mut args = vec!["-cjf", &archive_name, dicname];
+    let mut args = vec!["-cjf", &archive_name, dicname, "README.md"];
 
     if licenses.apl2 {
         std::fs::copy("../data/license/Apache-2.0.txt", "Apache-2.0.txt").unwrap();
