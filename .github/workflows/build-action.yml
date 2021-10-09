@@ -43,7 +43,7 @@ jobs:
 
       - name: Generate dictionaries
         uses: actions-rs/cargo@v1
-        with
+        with:
             command: build
             args: --release workflow ${{ github.event.inputs.args }}
 
