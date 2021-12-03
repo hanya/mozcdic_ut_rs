@@ -153,16 +153,19 @@ pub fn remove_unnecessary_entries(filename: &str, dicname: &str) -> std::io::Res
         if s1_cost.starts_with('*') {
             continue;
         }
+        
+        let id = ss1.next().unwrap();
 
         if i > 0 {
             let s2 = &lines[i - 1];
             let mut ss2 = s2.split('\t');
-            let (s2_yomi, s2_hyouki, s2_cost) =
-                (ss2.next().unwrap(), ss2.next().unwrap(), ss2.next().unwrap());
+            let (s2_yomi, s2_hyouki, s2_cost, s2_id) =
+                (ss2.next().unwrap(), ss2.next().unwrap(), ss2.next().unwrap(), ss2.next().unwrap());
 
-            // Mozc辞書と「読み+表記」が重複するUT辞書はスキップ
+            // Mozc辞書と「読み+表記+ID」が重複するUT辞書はスキップ
             if s2_cost.starts_with('*') &&
-                (s1_yomi == s2_yomi && s1_hyouki == s2_hyouki) {
+                (s1_yomi == s2_yomi && s1_hyouki == s2_hyouki) &&
+                id == s2_id {
                 continue;
             }
 
@@ -172,8 +175,6 @@ pub fn remove_unnecessary_entries(filename: &str, dicname: &str) -> std::io::Res
                 continue;
             }
         }
-
-        let id = ss1.next().unwrap();
 
         let v = format!("{}\t{}\t{}\t{}\t{}\n", s1_yomi, id, id, s1_cost, s1_hyouki);
         writer.write(v.as_bytes())?;
