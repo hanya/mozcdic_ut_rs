@@ -149,8 +149,8 @@ fn workflow(args: &Vec<&str>) {
     command_wait("mkdir", vec!["build"]).unwrap();
     std::env::set_current_dir("build").unwrap();
 
-    command_wait("rm", vec!["mozcdic-*"]).unwrap();
-    command_wait("rm", vec!["jawiki-ut-*"]).unwrap();
+    command_wait("rm", vec!["-f", "mozcdic-*"]).unwrap();
+    command_wait("rm", vec!["-f", "jawiki-ut-*"]).unwrap();
 
     command_runner(&vec!["mozc"]);
     command_runner(&vec!["jawikititles"]);

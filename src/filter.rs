@@ -153,7 +153,7 @@ pub fn remove_unnecessary_entries(filename: &str, dicname: &str) -> std::io::Res
         if s1_cost.starts_with('*') {
             continue;
         }
-        
+
         let id = ss1.next().unwrap();
 
         if i > 0 {
